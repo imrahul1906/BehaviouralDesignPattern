@@ -1,11 +1,9 @@
 package src;
 
-import src.teams.HighPriorityTeam;
-import src.teams.LowPriorityTeam;
-import src.teams.MidPriorityTeam;
-import src.teams.Team;
+import src.teams.*;
 
 public class TicketManager {
+    private int mId = 1;
     public static void main(String... args) {
         TicketManager manager = new TicketManager();
 
@@ -13,7 +11,7 @@ public class TicketManager {
         Ticket ticket = manager.createTicket();
 
         // Assign priority
-        ticket.setPriority(Priority.LOW);
+        ticket.setPriority(Priority.CRITICAL);
 
         // Route the ticket handling
         Team team = manager.getTeam(ticket.getPriority());
@@ -21,7 +19,7 @@ public class TicketManager {
     }
 
     private Ticket createTicket() {
-        Ticket ticket = new Ticket(1);
+        Ticket ticket = new Ticket(mId++);
         return ticket;
     }
 
@@ -31,8 +29,10 @@ public class TicketManager {
             team = new LowPriorityTeam();
         } else if (priority == Priority.MID) {
             team = new MidPriorityTeam();
-        } else {
+        } else if(priority == Priority.HIGH) {
             team = new HighPriorityTeam();
+        } else {
+            team = new CriticalPriorityTeam();
         }
         return team;
     }
