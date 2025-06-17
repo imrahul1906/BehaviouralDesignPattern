@@ -1,4 +1,8 @@
-# BehaviouralDesignPattern: Chain of Responsibility – Design Problems and Solutions
+# Why Chain of Responsibility
+- when you need to delegate a request to one of many classes
+- when you have to process a request in a predefined sequence
+ 
+# Chain of Responsibility – Design Problems and Solutions
 
 This project demonstrates how the **Chain of Responsibility** pattern improves the design of a ticket handling system in Java. Below, each original design problem is described along with how the pattern resolves it in your refactored implementation.
 
