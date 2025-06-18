@@ -4,19 +4,30 @@ import src.teams.*;
 
 public class TicketManager {
     private int mId = 1;
+
     public static void main(String... args) {
         TicketManager manager = new TicketManager();
 
         // Create a Ticker
         Ticket ticket = manager.createTicket();
+        ticket.setDescription("Build bot found the bug in the repo");
 
-        // Assign priority
-        ticket.setPriority(Priority.CRITICAL);
+        if (manager.isSpam(ticket)) {
+            ticket.addNotes("Ticket is spam and hence closing it.");
+            ticket.setTicketState(TicketState.CLOSED);
+        } else {
+            // Assign priority
+            ticket.setPriority(Priority.CRITICAL);
 
-        // Route the ticket handling
-        Team team = manager.getTeam(ticket.getPriority());
-        team.handleTicket(ticket);
-        ticket.setTicketState(TicketState.CLOSED);
+            // Route the ticket handling
+            Team team = manager.getTeam(ticket.getPriority());
+            team.handleTicket(ticket);
+            ticket.setTicketState(TicketState.CLOSED);
+        }
+    }
+
+    private boolean isSpam(Ticket ticket) {
+        return ticket.getDescription().toLowerCase().contains("build bot");
     }
 
     private Ticket createTicket() {
@@ -30,7 +41,7 @@ public class TicketManager {
             team = new LowPriorityTeam();
         } else if (priority == Priority.MID) {
             team = new MidPriorityTeam();
-        } else if(priority == Priority.HIGH) {
+        } else if (priority == Priority.HIGH) {
             team = new HighPriorityTeam();
         } else {
             team = new CriticalPriorityTeam();
