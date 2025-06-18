@@ -1,5 +1,8 @@
 package src;
 
+import src.states.OpenState;
+import src.states.TicketState;
+
 public class Ticket {
     private final int mId;
     private Priority mPriority;
@@ -8,7 +11,7 @@ public class Ticket {
 
     Ticket(int id) {
         mId = id;
-        mState = TicketState.OPEN;
+        mState = new OpenState();
         System.out.println("The ticket is created successfully and the state is: " + mState);
     }
     
@@ -31,5 +34,13 @@ public class Ticket {
 
     public TicketState getState() {
         return mState;
+    }
+
+    public void updateState() {
+        mState.updateState(this);
+    }
+
+    public void closeTicket() {
+        mState.close(this);
     }
 }

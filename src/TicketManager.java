@@ -16,7 +16,9 @@ public class TicketManager {
         // Route the ticket handling
         Team team = manager.getTeam(ticket.getPriority());
         team.handleTicket(ticket);
-        ticket.setTicketState(TicketState.CLOSED);
+
+        // Close the ticket finally
+        ticket.closeTicket();
     }
 
     private Ticket createTicket() {
