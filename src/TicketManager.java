@@ -1,5 +1,8 @@
 package src;
 
+import src.notification.Email;
+import src.notification.NotificationMode;
+import src.notification.Slack;
 import src.teams.*;
 
 public class TicketManager {
@@ -13,10 +16,20 @@ public class TicketManager {
         // Assign priority
         ticket.setPriority(Priority.CRITICAL);
 
+        // add observers
+        NotificationMode email = new Email();
+        NotificationMode slack = new Slack();
+        ticket.addObserver(email);
+        ticket.addObserver(slack);
+
         // Route the ticket handling
         Team team = manager.getTeam(ticket.getPriority());
         team.handleTicket(ticket);
         ticket.setTicketState(TicketState.CLOSED);
+
+        // remove observers
+        ticket.removeObserver(email);
+        ticket.removeObserver(slack);
     }
 
     private Ticket createTicket() {
